@@ -10,13 +10,16 @@
     "build:ui": "node scripts/rm \"build\" && cd \"../fullstackopen\" && npm run build && cd \"../FSOBackend\" && node scripts/mv \"../fullstackopen/build\" \"./\"",
     "deploy": "git add . && git commit -m uibuild && git push origin master && git push heroku master",
     "logs:prod": "heroku logs --tail",
-    "deploy:full": "npm run build:ui && npm run deploy"
+    "deploy:full": "npm run build:ui && npm run deploy",
+    "deploy:heroku": "git push heroku master"
   },
   "author": "Micheal",
   "license": "MIT",
   "dependencies": {
     "cors": "2.8.5",
-    "express": "4.17.1"
+    "dotenv": "8.1.0",
+    "express": "4.17.1",
+    "mongoose": "5.7.1"
   },
   "devDependencies": {
     "nodemon": "1.19.2",
