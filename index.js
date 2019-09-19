@@ -86,9 +86,12 @@ app.post('/api/notes', (req, res) => {
     date: new Date()
   })
 
-  note.save().then(savedNote => {
-    res.json(savedNote.toJSON())
-  })
+  note.save()
+    .then(savedNote => savedNote.toJSON())
+    .then(savedAndFormattedNote => {
+      res.json(savedAndFormattedNote)
+    })
+    .catch(error => next(error))
 })
 
 const unknownEndpoint = (request, response) => {
@@ -102,7 +105,9 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError' && error.kind === 'ObjectId') {
     return response.status(400).send({ error: 'malformatted id' })
-  } 
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({error: error.message})
+  }
 
   next(error)
 }
