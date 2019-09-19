@@ -1,0 +1,7 @@
+put http://localhost:3001/api/notes/5d83c70ba9ae870274e89e1b
+Content-Type: application/json
+
+{
+  "content": "VS Code is now different",
+  "important": false
+}
