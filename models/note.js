@@ -6,11 +6,13 @@ const url = process.env.MONGODB_URI
 
 console.log('connecting to', url)
 
-mongoose.connect(url, { useNewUrlParser: true })
+mongoose
+  .connect(url, { useNewUrlParser: true })
+  //eslint-disable-next-line
   .then(result => {
     console.log('connected to MongoDB')
   })
-  .catch((error) => {
+  .catch(error => {
     console.log('error connecting to MongoDB:', error.message)
   })
 
@@ -24,7 +26,7 @@ const noteSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
-  important: Boolean,
+  important: Boolean
 })
 
 noteSchema.set('toJSON', {
