@@ -4,14 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "nodemon index.js",
     "start": "node index.js",
     "build:ui": "node scripts/rm \"build\" && cd \"../fullstackopen\" && npm run build && cd \"../FSOBackend\" && node scripts/mv \"../fullstackopen/build\" \"./\"",
-    "deploy": "git add . && git commit -m uibuild && git push origin master && git push heroku master",
     "logs:prod": "heroku logs --tail",
-    "deploy:full": "npm run build:ui && npm run deploy",
-    "deploy:heroku": "git push heroku master"
+    "deploy:heroku": "git push heroku master",
+    "format": "prettier \"*.{js,html}\" --write",
+    "lint": "eslint \"*.{js}\" --quiet"
   },
   "author": "Micheal",
   "license": "MIT",
@@ -22,7 +21,10 @@
     "mongoose": "5.7.1"
   },
   "devDependencies": {
+    "eslint": "6.4.0",
+    "eslint-config-prettier": "6.3.0",
     "nodemon": "1.19.2",
+    "prettier": "1.18.2",
     "shelljs": "0.8.3"
   }
 }

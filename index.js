@@ -5,7 +5,6 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const Note = require('./models/note')
 
-
 // MIDDLEWARE
 app.use(bodyParser.json())
 app.use(cors())
@@ -20,14 +19,6 @@ const requestLogger = (request, response, next) => {
 
 app.use(requestLogger)
 
-//HELPERS
-const generateId = () => {
-  const maxId = notes.length > 0
-    ? Math.max(...notes.map(n => n.id))
-    : 0
-  return maxId + 1
-}
-
 // ROUTES
 app.get('/', (req, res) => {
   res.send('<h1>Hi there</h1>')
@@ -40,14 +31,15 @@ app.get('/api/notes', (req, res) => {
 })
 
 app.get('/api/notes/:id', (req, res, next) => {
-  Note.findById(req.params.id).then(note => {
-    if(note) {
-      res.json(note.toJSON())
-    } else {
-      res.status(404).end()
-    }
-  })
-  .catch(error => next(error))
+  Note.findById(req.params.id)
+    .then(note => {
+      if (note) {
+        res.json(note.toJSON())
+      } else {
+        res.status(404).end()
+      }
+    })
+    .catch(error => next(error))
 })
 
 app.put('/api/notes/:id', (req, res, next) => {
@@ -67,17 +59,18 @@ app.put('/api/notes/:id', (req, res, next) => {
 
 app.delete('/api/notes/:id', (req, res, next) => {
   Note.findByIdAndRemove(req.params.id)
+    //eslint-disable-next-line
     .then(result => {
       res.status(204).end()
     })
     .catch(error => next(error))
 })
 
-app.post('/api/notes', (req, res) => {
+app.post('/api/notes', (req, res, next) => {
   const body = req.body
-  
+
   if (body.content === undefined) {
-    return res.status(400).json({error: 'Content missing'})
+    return res.status(400).json({ error: 'Content missing' })
   }
 
   const note = new Note({
@@ -86,7 +79,8 @@ app.post('/api/notes', (req, res) => {
     date: new Date()
   })
 
-  note.save()
+  note
+    .save()
     .then(savedNote => savedNote.toJSON())
     .then(savedAndFormattedNote => {
       res.json(savedAndFormattedNote)
@@ -106,7 +100,7 @@ const errorHandler = (error, request, response, next) => {
   if (error.name === 'CastError' && error.kind === 'ObjectId') {
     return response.status(400).send({ error: 'malformatted id' })
   } else if (error.name === 'ValidationError') {
-    return response.status(400).json({error: error.message})
+    return response.status(400).json({ error: error.message })
   }
 
   next(error)
