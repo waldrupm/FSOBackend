@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "nodemon index.js",
-    "start": "node index.js",
+    "watch": "cross-env NODE_ENV=development nodemon index.js",
+    "start": "cross-env NODE_ENV=production node index.js",
     "build:ui": "node scripts/rm \"build\" && cd \"../fullstackopen\" && npm run build && cd \"../FSOBackend\" && node scripts/mv \"../fullstackopen/build\" \"./\"",
     "logs:prod": "heroku logs --tail",
     "deploy:heroku": "git push heroku master",
     "format": "prettier \"*.{js,html}\" --write",
-    "lint": "eslint \"*.{js}\" --quiet"
+    "lint": "eslint \"*.{js}\" --quiet",
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand"
   },
   "author": "Micheal",
   "license": "MIT",
@@ -21,10 +22,16 @@
     "mongoose": "5.7.1"
   },
   "devDependencies": {
+    "cross-env": "6.0.0",
     "eslint": "6.4.0",
     "eslint-config-prettier": "6.3.0",
+    "jest": "24.9.0",
     "nodemon": "1.19.2",
     "prettier": "1.18.2",
-    "shelljs": "0.8.3"
+    "shelljs": "0.8.3",
+    "supertest": "4.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
