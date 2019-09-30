@@ -1,8 +1,8 @@
 post http://localhost:3001/api/notes
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IldhbGx5IiwiaWQiOiI1ZDkyM2QxMTc2Y2U5ZDU0ZGNmNWMzZTUiLCJpYXQiOjE1Njk4NjY3MzV9.7oI50_C2PK4PK0Mqo6oiOkp8xdHSA8XVGuTLpBUQmVI
 
 {
-  "content": "I'm sending you a userid also, here it is.",
-  "important": true,
-  "userId": "5d923d1176ce9d54dcf5c3e5"
+  "content": "I'm sending you a JWT, here it is.",
+  "important": true
 }
